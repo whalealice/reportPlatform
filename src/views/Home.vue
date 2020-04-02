@@ -24,7 +24,7 @@
 <style lang="less" scoped>
 .home {
 	width: 100%;
-	height: 100%;
+	// height: 100%;
     background: #f1f1f1;
     display: flex;
     flex-direction: column;

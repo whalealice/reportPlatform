@@ -4,7 +4,7 @@
             <el-button
                 icon="el-icon-plus"
                 type="primary"
-                v-on:click="toCreate" 
+                v-on:click="toCreatePage" 
             >创建缺陷</el-button>
             <div>
             <el-input
@@ -25,6 +25,7 @@
                 size='small'
                 :stripe="true"
                 :fit="true"
+                @cell-click="cellClick"
             >
 
                 <el-table-column
@@ -210,18 +211,14 @@ export default {
     },
 
     methods: {
-        toggleSelection(rows) {
-           
-            if (rows) {
-                rows.forEach(row => {
-                    this.$refs.multipleTable.toggleRowSelection(row);
-                });
-            } else {
-                this.$refs.multipleTable.clearSelection();
-            }
+        // 点击某一行带参数跳转到详情页
+        cellClick(row){
+            console.log('cellClick', row)
+            // row 这一行的数据
+            this.$router.push({ path: "/home/detail", query: row });
         },
         handleSelectionChange(val) {
-             console.log('111', Axios, api)
+            console.log('handleSelectionChange', Axios, api)
             this.multipleSelection = val;
         },
         handleSizeChange(val) {
@@ -230,7 +227,7 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        toCreate(){
+        toCreatePage(){
             this.$router.push({ path: "/home/create" });
         }
     }

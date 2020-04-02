@@ -2,7 +2,7 @@
 module.exports = {
     devServer: {
         port: 9090, // 源地址端口
-        proxyTable: {
+        proxy: {
             '/api': {
               target: 'http://localhost:5000', // 自己改
               ws: true,        //如果要代理 websockets，配置这个参数

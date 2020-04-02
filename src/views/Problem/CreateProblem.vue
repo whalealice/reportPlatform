@@ -1,17 +1,58 @@
 <template>
-    <div class="createWrap">
-        <div class="header">创建缺陷</div>
-        <div class="main">
+    <div class="createWrap contentWrap">
+        <div class="headerBox">创建缺陷</div>
+        <div class="mainBox">
             <div class="mainLeft">
-                <div>
+                <div class="mainTitle">
+                    <el-input
+                        type="input"
+                        placeholder="请输入标题"
+                        v-model="textarea1"
+                    >
+                    </el-input>
+                </div>
+
+                <p class="mainText">
                     【问题描述】
-                </div>
-                <div>
+                </p>
+                <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
+                    placeholder="请输入内容"
+                    v-model="textarea2"
+                ></el-input>
+
+                <p class="mainText">
                     【截图】
-                </div>
-                <div>
+                </p>
+                <el-upload
+                    class="avatar-uploader"
+                    :action="uploadUrl"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload"
+                >
+                    <img
+                        v-if="imageUrl"
+                        :src="imageUrl"
+                        class="avatar"
+                    >
+                    <i
+                        v-else
+                        class="el-icon-plus avatar-uploader-icon"
+                    ></i>
+                </el-upload>
+
+                <p class="mainText">
                     【链接地址】
-                </div>
+                </p>
+                <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
+                    placeholder="请输入内容"
+                    v-model="textarea3"
+                ></el-input>
+
             </div>
             <div class="mainRight">
                 <el-form
@@ -25,7 +66,17 @@
                         label="发现版本"
                         prop="name"
                     >
-                        <el-input v-model="ruleForm.name"></el-input>
+                        <el-select
+                            v-model="ruleForm.region"
+                            placeholder="请选择优先级"
+                        >
+                            <el-option
+                                v-for="item in versionList"
+                                :key="item.label"
+                                :label="item.name"
+                                :value="item.label"
+                            ></el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item
                         label="优先级"
@@ -126,70 +177,48 @@
                     </el-form-item>
 
                 </el-form>
-                <div>
-                    ssss
+                <div class="upLoad">
+                    附件
+                    <el-upload
+                        class="uploadBtn"
+                        :action="uploadUrl"
+                        :on-change="handleChange"
+                        :file-list="fileList"
+                    >
+
+                        <i class="el-icon-plus"></i>
+                        <span>添加</span>
+                        <!-- <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                    </el-upload>
                 </div>
             </div>
         </div>
-        <div class="footer">
+        <div class="footerBox">
             <el-button
                 type="primary"
                 @click="submitForm('ruleForm')"
             >提交</el-button>
-            <el-button @click="resetForm('ruleForm')">取消</el-button>
+            <el-button @click="cancelForm('ruleForm')">取消</el-button>
         </div>
     </div>
 </template>
 
-<style lang="less" scoped>
-.createWrap {
-    // width: 100%;
-    height: 100%;
-    background: #ffffff;
-    margin: 10px 20px;
-    flex: 1;
-    display: inline-flex;
-    flex-direction: column;
-    .header {
-        height: 50px;
-        line-height: 50px;
-        text-align: left;
-        padding: 0 10px;
-        border: 1px solid #f1f1f1f1;
-        font-size: 16px;
-    }
-    .main {
-        width: 100%;
-        display: inline-flex;
-        justify-content: space-between;
-        flex: 1;
-        border-bottom: 1px solid #f1f1f1;
-        .mainLeft {
-            // width: 60%;
-            text-align: left;
-            padding: 10px;
-            flex: 1;
-        }
-        .mainRight {
-            border-left: 1px solid #f1f1f1;
-            width: 400px;
-            padding: 10px;
-            .ruleForm {
-                border-bottom: 1px solid #f1f1f1;
-            }
-        }
-    }
-    .footer {
-        text-align: left;
-        padding: 20px 10px;
-    }
-}
+<style lang="less" >
+@import url("./style.less");
 </style>
 <script>
+import { uploadUrl } from "./../../contants/serverUrl";
 export default {
     data() {
         return {
+            uploadUrl: uploadUrl,
+            versionList: [], // 版本列表
+            textarea1: "",// todo
+            textarea2: "",// todo
+            textarea3: "", // todo
             ruleForm: {
+                // todo
                 name: "",
                 name1: "",
                 region: "",
@@ -205,6 +234,7 @@ export default {
                 desc: ""
             },
             rules: {
+                // todo 表单的验证规则
                 name: [
                     {
                         required: true,
@@ -266,13 +296,48 @@ export default {
                         trigger: "change"
                     }
                 ]
-            }
+            },
+            fileList: [], // 添加附件
+            imageUrl: '', // 截图
         };
     },
+    mounted: function() {
+        // 写请求
+        const arr = [
+            { value: "gao", label: "高" },
+            { value: "zhong", label: "中" },
+            { value: "di", label: "低" }
+        ];
+        this.versionList = arr;
+        console.log("uploadUrl", uploadUrl);
+    },
     methods: {
+        // 添加附件
+        handleChange(file, fileList) {
+            console.log("upload", file, fileList);
+
+            this.fileList = fileList.slice(-3);
+        },
+        // 截图
+        handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
+                    console.log("aaa", valid);
                     alert("submit!");
                 } else {
                     console.log("error submit!!");
@@ -280,8 +345,9 @@ export default {
                 }
             });
         },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
+        cancelForm() {
+            this.$router.push({ path: "/home/problem" });
+            // this.$refs[formName].resetFields();
         }
     }
 };
