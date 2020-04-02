@@ -3,12 +3,11 @@
         <div class="problemBtn">
             <el-button
                 icon="el-icon-plus"
-                size="small"
                 type="primary"
-                 v-on:click="toCreate" 
+                v-on:click="toCreate" 
             >创建缺陷</el-button>
             <div>
-<el-input
+            <el-input
                 placeholder="请输入内容"
                 prefix-icon="el-icon-search"
                 v-model="searchName">

@@ -3,126 +3,140 @@
         <div class="header">创建缺陷</div>
         <div class="main">
             <div class="mainLeft">
-				<div>
-					问题描述
-				</div>
-			</div>
+                <div>
+                    【问题描述】
+                </div>
+                <div>
+                    【截图】
+                </div>
+                <div>
+                    【链接地址】
+                </div>
+            </div>
             <div class="mainRight">
                 <el-form
                     :model="ruleForm"
                     :rules="rules"
                     ref="ruleForm"
                     label-width="100px"
-                    class="demo-ruleForm"
+                    class="ruleForm"
                 >
                     <el-form-item
-                        label="活动名称"
+                        label="发现版本"
                         prop="name"
                     >
                         <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
                     <el-form-item
-                        label="活动区域"
+                        label="优先级"
                         prop="region"
                     >
                         <el-select
                             v-model="ruleForm.region"
-                            placeholder="请选择活动区域"
+                            placeholder="请选择优先级"
                         >
                             <el-option
-                                label="区域一"
+                                label="高"
                                 value="shanghai"
                             ></el-option>
                             <el-option
-                                label="区域二"
+                                label="中"
+                                value="beijing"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item
+                        label="严重程度"
+                        prop="region1"
+                    >
+                        <el-select
+                            v-model="ruleForm.region1"
+                            placeholder="请选择严重程度"
+                        >
+                            <el-option
+                                label="严重"
+                                value="shanghai"
+                            ></el-option>
+                            <el-option
+                                label="一般"
                                 value="beijing"
                             ></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item
-                        label="活动时间"
-                        required
+                        label="处理人"
+                        prop="name1"
                     >
-                        <el-col :span="11">
-                            <el-form-item prop="date1">
-                                <el-date-picker
-                                    type="date"
-                                    placeholder="选择日期"
-                                    v-model="ruleForm.date1"
-                                    style="width: 100%;"
-                                ></el-date-picker>
-                            </el-form-item>
-                        </el-col>
-                        <el-col
-                            class="line"
-                            :span="2"
-                        >-</el-col>
-                        <el-col :span="11">
-                            <el-form-item prop="date2">
-                                <el-time-picker
-                                    placeholder="选择时间"
-                                    v-model="ruleForm.date2"
-                                    style="width: 100%;"
-                                ></el-time-picker>
-                            </el-form-item>
-                        </el-col>
+                        <el-input v-model="ruleForm.name1"></el-input>
                     </el-form-item>
                     <el-form-item
-                        label="即时配送"
-                        prop="delivery"
+                        label="迭代"
+                        prop="region2"
                     >
-                        <el-switch v-model="ruleForm.delivery"></el-switch>
+                        <el-select
+                            v-model="ruleForm.region2"
+                            placeholder="请选择优先级"
+                        >
+                            <el-option
+                                label="严重"
+                                value="shanghai"
+                            ></el-option>
+                            <el-option
+                                label="一般"
+                                value="beijing"
+                            ></el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item
-                        label="活动性质"
-                        prop="type"
+                        label="发现阶段"
+                        prop="region3"
                     >
-                        <el-checkbox-group v-model="ruleForm.type">
-                            <el-checkbox
-                                label="美食/餐厅线上活动"
-                                name="type"
-                            ></el-checkbox>
-                            <el-checkbox
-                                label="地推活动"
-                                name="type"
-                            ></el-checkbox>
-                            <el-checkbox
-                                label="线下主题活动"
-                                name="type"
-                            ></el-checkbox>
-                            <el-checkbox
-                                label="单纯品牌曝光"
-                                name="type"
-                            ></el-checkbox>
-                        </el-checkbox-group>
+                        <el-select
+                            v-model="ruleForm.region3"
+                            placeholder="请选择发现阶段"
+                        >
+                            <el-option
+                                label="严重"
+                                value="shanghai"
+                            ></el-option>
+                            <el-option
+                                label="一般"
+                                value="beijing"
+                            ></el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item
-                        label="特殊资源"
-                        prop="resource"
+                        label="发现环境"
+                        prop="region4"
                     >
-                        <el-radio-group v-model="ruleForm.resource">
-                            <el-radio label="线上品牌商赞助"></el-radio>
-                            <el-radio label="线下场地免费"></el-radio>
-                        </el-radio-group>
+                        <el-select
+                            v-model="ruleForm.region4"
+                            placeholder="请选择发现环境"
+                        >
+                            <el-option
+                                label="严重"
+                                value="shanghai"
+                            ></el-option>
+                            <el-option
+                                label="一般"
+                                value="beijing"
+                            ></el-option>
+                        </el-select>
                     </el-form-item>
-                    <el-form-item
-                        label="活动形式"
-                        prop="desc"
-                    >
-                        <el-input
-                            type="textarea"
-                            v-model="ruleForm.desc"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button
-                            type="primary"
-                            @click="submitForm('ruleForm')"
-                        >立即创建</el-button>
-                        <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    </el-form-item>
+
                 </el-form>
+                <div>
+                    ssss
+                </div>
             </div>
+        </div>
+        <div class="footer">
+            <el-button
+                type="primary"
+                @click="submitForm('ruleForm')"
+            >提交</el-button>
+            <el-button @click="resetForm('ruleForm')">取消</el-button>
         </div>
     </div>
 </template>
@@ -133,30 +147,42 @@
     height: 100%;
     background: #ffffff;
     margin: 10px 20px;
-	flex: 1;
+    flex: 1;
+    display: inline-flex;
+    flex-direction: column;
     .header {
-        height: 40px;
-        line-height: 40px;
+        height: 50px;
+        line-height: 50px;
         text-align: left;
         padding: 0 10px;
         border: 1px solid #f1f1f1f1;
-	}
-	.main{
-		// height: 100%;
-		width: 100%;
-		display: inline-flex;
-		justify-content: space-between;
-		flex: 1;
-		// padding: 10px;
-		.mainLeft{
-			width: 60%;
-			text-align: left;
-		}
-		.mainRight{
-			border-left: 1px solid #f1f1f1;
-			width: 30%;
-		}
-	}
+        font-size: 16px;
+    }
+    .main {
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        flex: 1;
+        border-bottom: 1px solid #f1f1f1;
+        .mainLeft {
+            // width: 60%;
+            text-align: left;
+            padding: 10px;
+            flex: 1;
+        }
+        .mainRight {
+            border-left: 1px solid #f1f1f1;
+            width: 400px;
+            padding: 10px;
+            .ruleForm {
+                border-bottom: 1px solid #f1f1f1;
+            }
+        }
+    }
+    .footer {
+        text-align: left;
+        padding: 20px 10px;
+    }
 }
 </style>
 <script>
@@ -165,7 +191,12 @@ export default {
         return {
             ruleForm: {
                 name: "",
+                name1: "",
                 region: "",
+                region1: "",
+                region2: "",
+                region3: "",
+                region4: "",
                 date1: "",
                 date2: "",
                 delivery: false,
@@ -187,6 +218,19 @@ export default {
                         trigger: "blur"
                     }
                 ],
+                name1: [
+                    {
+                        required: true,
+                        message: "请输入活动名称",
+                        trigger: "blur"
+                    },
+                    {
+                        min: 3,
+                        max: 5,
+                        message: "长度在 3 到 5 个字符",
+                        trigger: "blur"
+                    }
+                ],
                 region: [
                     {
                         required: true,
@@ -194,42 +238,32 @@ export default {
                         trigger: "change"
                     }
                 ],
-                date1: [
+                region1: [
                     {
-                        type: "date",
                         required: true,
-                        message: "请选择日期",
+                        message: "请选择活动区域",
                         trigger: "change"
                     }
                 ],
-                date2: [
+                region2: [
                     {
-                        type: "date",
                         required: true,
-                        message: "请选择时间",
+                        message: "请选择活动区域",
                         trigger: "change"
                     }
                 ],
-                type: [
+                region3: [
                     {
-                        type: "array",
                         required: true,
-                        message: "请至少选择一个活动性质",
+                        message: "请选择活动区域",
                         trigger: "change"
                     }
                 ],
-                resource: [
+                region4: [
                     {
                         required: true,
-                        message: "请选择活动资源",
+                        message: "请选择活动区域",
                         trigger: "change"
-                    }
-                ],
-                desc: [
-                    {
-                        required: true,
-                        message: "请填写活动形式",
-                        trigger: "blur"
                     }
                 ]
             }
