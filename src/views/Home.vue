@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div id="nav">
+        <div class="nav">
             <img
                 class="logo"
                 src="./../assets/logo.png"
@@ -25,9 +25,11 @@
 .home {
 	width: 100%;
 	height: 100%;
-	background: #f1f1f1;
+    background: #f1f1f1;
+    display: flex;
+    flex-direction: column;
 }
-#nav {
+.nav {
 	display: inline-flex;
 	align-items: center;
 	justify-content: flex-start;

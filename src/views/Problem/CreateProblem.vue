@@ -126,13 +126,14 @@
         </div>
     </div>
 </template>
+
 <style lang="less" scoped>
 .createWrap {
     // width: 100%;
-    // height: 100%;
+    height: 100%;
     background: #ffffff;
     margin: 10px 20px;
-
+	flex: 1;
     .header {
         height: 40px;
         line-height: 40px;

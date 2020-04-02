@@ -151,10 +151,9 @@
 <style lang="less" scoped>
 .problemWrap {
     // width: 100%;
-    // height: 100%;
     // background: #ffffff;
     margin: 10px 20px;
-
+    flex: 1;
     .problemBtn {
         // text-align: left;
         width: 100%;
@@ -182,6 +181,8 @@
 }
 </style>
 <script>
+import Axios from "axios";
+import {api} from "./../../contants/serverUrl";
 export default {
     data() {
         return {
@@ -211,6 +212,7 @@ export default {
 
     methods: {
         toggleSelection(rows) {
+           
             if (rows) {
                 rows.forEach(row => {
                     this.$refs.multipleTable.toggleRowSelection(row);
@@ -220,6 +222,7 @@ export default {
             }
         },
         handleSelectionChange(val) {
+             console.log('111', Axios, api)
             this.multipleSelection = val;
         },
         handleSizeChange(val) {
