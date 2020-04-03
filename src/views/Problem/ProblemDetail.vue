@@ -6,15 +6,15 @@
                 effect="dark"
                 size="mini"
             >BUG</el-tag>
-            <span class="headerText">{{detailData.address}}</span>
+            <span class="headerText"><b>{{detailData.title}}</b></span>
         </div>
         <div class="mainBox">
             <div class="mainLeft">
                 <p class="mainText">
-                    【问题描述】
+                    <b>【问题描述】</b>
                 </p>
                 <p>
-                    {{detailData.aa}}
+                    {{detailData.description}}
                 </p>
 
                 <p class="mainText">
@@ -22,13 +22,13 @@
                 </p>
 
                 <p>
-                    {{detailData.bb}}
+                    {{detailData.description}}
                 </p>
                 <p class="mainText">
                     【链接地址】
                 </p>
                 <p>
-                    {{detailData.cc}}
+                    {{detailData.description}}
                 </p>
             </div>
             <div class="mainRight">
@@ -41,21 +41,61 @@
                                 size="mini"
                                 effect="plain"
                             >
-                                {{ detailData.bb }}
+                                {{ detailData.platform }}
                             </el-tag>
                         </p>
                     </li>
                     <li>
-                        <p>创建人 <i class="el-icon-question"></i></p>
-                        <p>{{detailData.bb}}</p>
+                        <p>创建人</p>
+                        <p>{{detailData.openid}}</p>
                     </li>
                     <li>
                         <p>创建人</p>
                         <p><el-tag
-                                type="danger"
                                 effect="dark"
                                 size="mini"
-                            >{{ detailData.name }}</el-tag></p>
+                                type="info"
+                            >{{ detailData.severity}}</el-tag></p>
+                    </li>
+                    <li>
+                        <p>创建人</p>
+                        <p><el-tag
+                                effect="dark"
+                                size="mini"
+                                type="info"
+                        >{{ detailData.severity}}</el-tag></p>
+                    </li>
+                    <li>
+                        <p>创建人</p>
+                        <p><el-tag
+                                effect="dark"
+                                size="mini"
+                                type="info"
+                        >{{ detailData.severity}}</el-tag></p>
+                    </li>
+                    <li>
+                        <p>创建人</p>
+                        <p><el-tag
+                                effect="dark"
+                                size="mini"
+                                type="info"
+                        >{{ detailData.severity}}</el-tag></p>
+                    </li>
+                    <li>
+                        <p>创建人</p>
+                        <p><el-tag
+                                effect="dark"
+                                size="mini"
+                                type="info"
+                        >{{ detailData.severity}}</el-tag></p>
+                    </li>
+                    <li>
+                        <p>创建人</p>
+                        <p><el-tag
+                                effect="dark"
+                                size="mini"
+                                type="info"
+                        >{{ detailData.severity}}</el-tag></p>
                     </li>
                      
                 </ul>

@@ -1,2 +1,2 @@
-export const api = '/aaa/bbb'
-export const uploadUrl = 'https://jsonplaceholder.typicode.com/posts/'
+export const getList = '/api/bug/getlist'
+export const uploadUrl = "https://jsonplaceholder.typicode.com/posts"

@@ -5,12 +5,14 @@
                 icon="el-icon-plus"
                 type="primary"
                 v-on:click="toCreatePage" 
-            >创建缺陷</el-button>
+            ><b>创建缺陷</b></el-button>
             <div>
             <el-input
                 placeholder="请输入内容"
                 prefix-icon="el-icon-search"
-                v-model="searchName">
+                v-model="searchName"
+                @change="onSearch"
+                clearable>
             </el-input>
             </div>
             
@@ -26,6 +28,7 @@
                 :stripe="true"
                 :fit="true"
                 @cell-click="cellClick"
+                v-loading="listLoading"
             >
 
                 <el-table-column
@@ -33,11 +36,6 @@
                     width="55"
                 >
 
-                </el-table-column>
-                <el-table-column
-                    type="index"
-                    width="50"
-                >
                 </el-table-column>
                 <el-table-column
                     label="标题"
@@ -49,40 +47,41 @@
                             type="danger"
                             effect="dark"
                             size="mini"
-                        >BUG</el-tag>
-                        <el-popover
                             trigger="hover"
-                            placement="top"
-                        >
-                            {{ scope.row.address }}
-                        </el-popover>
+                        >BUG</el-tag>
+                        <label>&nbsp;{{ scope.row.title }}</label>
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="name"
                     label="优先级"
                     width="120"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.name === '高'">
+                        <div v-if="scope.row.influence === '高'">
                             <el-tag
                                 type="danger"
                                 effect="dark"
                                 size="mini"
-                            >{{ scope.row.name }}</el-tag>
+                            >{{ scope.row.influence }}</el-tag>
                         </div>
-                        <div v-else-if="scope.row.name === '中'">
+                        <div v-else-if="scope.row.influence === '中'">
                             <el-tag
                                 type="success"
                                 effect="dark"
                                 size="mini"
-                            >{{ scope.row.name }}</el-tag>
+                            >{{ scope.row.influence }}</el-tag>
+                        </div>
+                        <div v-else-if="scope.row.influence === '低'">
+                            <el-tag
+                                    type="info"
+                                    effect="dark"
+                                    size="mini"
+                            >{{ scope.row.influence }}</el-tag>
                         </div>
 
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="aa"
                     label="严重程度"
                     width="180"
                 >
@@ -90,19 +89,22 @@
                         <div>
                             <span
                                 class="dot dotRed"
-                                v-if="scope.row.name === '高'"
+                                v-if="scope.row.severity === '严重'"
                             ></span>
                             <span
                                 class="dot dotGreen"
-                                v-else-if="scope.row.name === '中'"
+                                v-else-if="scope.row.severity === '一般'"
                             ></span>
-                            {{ scope.row.aa }}
+                            <span
+                                      class="dot dotGray"
+                                      v-else-if="scope.row.severity === '建议'"
+                            ></span>
+                            {{ scope.row.severity }}
                         </div>
 
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="bb"
                     label="状态"
                     width="180"
                 >
@@ -111,37 +113,43 @@
                             size="mini"
                             effect="plain"
                             type="success"
-                            v-if="scope.row.bb === '新'"
-                        >{{ scope.row.bb }}</el-tag>
-						<el-tag
-                            size="mini"
-                            effect="plain"
-                            type="info"
-                            v-else-if="scope.row.bb === '已解决'"
-                        >{{ scope.row.bb }}</el-tag>
+                            v-if="scope.row.platform === '新'"
+                        >{{ scope.row.platform }}</el-tag>
+                        <el-tag
+                                size="mini"
+                                effect="plain"
+                                type="info"
+                                v-else-if="scope.row.platform === '已关闭'"
+                        >{{ scope.row.platform }}</el-tag>
+                        <el-tag
+                                size="mini"
+                                effect="plain"
+                                type=""
+                                v-else
+                        >{{ scope.row.platform }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="date"
+                    prop="openid"
                     label="创建时间"
                     width="180"
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="person"
+                    prop="description"
                     label="创建人"
                 >
                 </el-table-column>
             </el-table>
             <div class="pagintion">
                 <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                    :page-sizes="[100, 200, 300, 400]"
-                    :page-size="100"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="400"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :current-page="pageInfo.pageNumber"
+                        :page-sizes="[10,50,100,200]"
+                        :page-size="pageInfo.pageSize"
+                        :total="pageInfo.count"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
                 >
                 </el-pagination>
             </div>
@@ -150,12 +158,9 @@
 </template>
 <style lang="less" scoped>
 .problemWrap {
-    // width: 100%;
-    // background: #ffffff;
     margin: 10px 20px;
     flex: 1;
     .problemBtn {
-        // text-align: left;
         width: 100%;
         margin-bottom: 10px;
         display: inline-flex;
@@ -174,6 +179,9 @@
     .dotGreen {
         background: #67c23a;
     }
+    .dotGray {
+    background: #b9b9b9;
+    }
     .pagintion {
         margin-top: 20px;
         text-align: right;
@@ -181,36 +189,54 @@
 }
 </style>
 <script>
-import Axios from "axios";
-import {api} from "./../../contants/serverUrl";
+import apis from "../../apis/apis";
 export default {
     data() {
         return {
-            currentPage: 1,
-            searchName:'',
-            tableData: [
-                {
-                    name: "高",
-                    aa: "严重",
-                    bb: "新",
-                    date: "2020-03-29",
-                    address: "上海市普陀区金沙江路 1518 弄",
-                    person: "maxinning"
-                },
-                {
-                    name: "中",
-                    aa: "严重",
-                    bb: "已解决",
-                    date: "2020-03-29",
-                    address: "上海市普陀区金沙江路 1518 弄",
-                    person: "maxinning"
-                }
-            ],
+            listLoading : false,
+            searchName: "",
+            pageInfo: {
+                pageNumber: 1,
+                pageSize: 10,
+                count: 0
+            },
+            bugSearch: {
+                openid: "",
+                title: ""
+            },
+            tableData: [],
             multipleSelection: []
         };
     },
-
+    mounted(){
+        this.onSearch();
+    },
     methods: {
+        // 查询问题列表
+        onSearch() {
+            this.listLoading = true;
+            this.bugSearch.title = this.searchName
+            let param = Object.assign({}, this.bugSearch, this.pageInfo);
+            apis.problemApi
+                    .getList(param)
+                    .then(res => {
+                this.listLoading = false;
+            if (res && res.data) {
+                var json = res.data;
+                if (json && json.code == "0") {
+                    this.tableData = json.data;
+                    this.pageInfo.count = json.bugcount
+                    return;
+                }
+            }
+            this.$message({ message: "执行失败，请重试", type: "error" });
+        })
+        .catch(err => {
+                this.listLoading = false;
+                console.log(err)
+                this.$message({ message: "查询异常，请重试 ", type: "error" });
+        });
+        },
         // 点击某一行带参数跳转到详情页
         cellClick(row){
             console.log('cellClick', row)
@@ -218,14 +244,22 @@ export default {
             this.$router.push({ path: "/home/detail", query: row });
         },
         handleSelectionChange(val) {
-            console.log('handleSelectionChange', Axios, api)
+//            console.log('handleSelectionChange', Axios, getList)
             this.multipleSelection = val;
+//             this.$message({
+//                 message: '选中的项是:' + JSON.stringify(this.multipleSelection),
+//                 type: "success"
+//             });
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pageInfo.pageSize = val;
+            this.onSearch();
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.pageInfo.pageNumber = val;
+            this.onSearch();
         },
         toCreatePage(){
             this.$router.push({ path: "/home/create" });

@@ -6,7 +6,7 @@
                 src="./../assets/logo.png"
                 alt="logo"
             >
-			<div class="navText">筑巢</div>
+			<div class="navText">issue</div>
             <el-menu
                 :default-active="activeIndex"
                 class="el-menu-demo"
