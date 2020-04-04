@@ -33,113 +33,114 @@
 
                 <el-table-column
                     type="selection"
-                    width="55"
-                >
+                    width="55">
 
                 </el-table-column>
-                <el-table-column
-                    label="标题"
-                    width="240"
-                    show-overflow-tooltip
-                >
-                    <template slot-scope="scope">
-                        <el-tag
-                            type="danger"
-                            effect="dark"
-                            size="mini"
-                            trigger="hover"
-                        >BUG</el-tag>
-                        <label>&nbsp;{{ scope.row.title }}</label>
-                    </template>
+                <el-table-column v-for="(item,index) in tableColumns" :key= "index" :label="item.CustomFieldConfig.name" :property ="item.CustomFieldConfig.custom_field">
+                    <template slot-scope="scope">{{scope.row[scope.column.property]}}</template>
                 </el-table-column>
-                <el-table-column
-                    label="优先级"
-                    width="120"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.influence === '高'">
-                            <el-tag
-                                type="danger"
-                                effect="dark"
-                                size="mini"
-                            >{{ scope.row.influence }}</el-tag>
-                        </div>
-                        <div v-else-if="scope.row.influence === '中'">
-                            <el-tag
-                                type="success"
-                                effect="dark"
-                                size="mini"
-                            >{{ scope.row.influence }}</el-tag>
-                        </div>
-                        <div v-else-if="scope.row.influence === '低'">
-                            <el-tag
-                                    type="info"
-                                    effect="dark"
-                                    size="mini"
-                            >{{ scope.row.influence }}</el-tag>
-                        </div>
+                <!--<el-table-column-->
+                    <!--label="标题"-->
+                    <!--width="240"-->
+                    <!--show-overflow-tooltip-->
+                <!--&gt;-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<el-tag-->
+                            <!--type="danger"-->
+                            <!--effect="dark"-->
+                            <!--size="mini"-->
+                            <!--trigger="hover"-->
+                        <!--&gt;BUG</el-tag>-->
+                        <!--<label>&nbsp;{{ scope.row.title }}</label>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--label="优先级"-->
+                    <!--width="120">-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<div v-if="scope.row.influence === '高'">-->
+                            <!--<el-tag-->
+                                <!--type="danger"-->
+                                <!--effect="dark"-->
+                                <!--size="mini"-->
+                            <!--&gt;{{ scope.row.influence }}</el-tag>-->
+                        <!--</div>-->
+                        <!--<div v-else-if="scope.row.influence === '中'">-->
+                            <!--<el-tag-->
+                                <!--type="success"-->
+                                <!--effect="dark"-->
+                                <!--size="mini"-->
+                            <!--&gt;{{ scope.row.influence }}</el-tag>-->
+                        <!--</div>-->
+                        <!--<div v-else-if="scope.row.influence === '低'">-->
+                            <!--<el-tag-->
+                                    <!--type="info"-->
+                                    <!--effect="dark"-->
+                                    <!--size="mini"-->
+                            <!--&gt;{{ scope.row.influence }}</el-tag>-->
+                        <!--</div>-->
 
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="严重程度"
-                    width="180"
-                >
-                    <template slot-scope="scope">
-                        <div>
-                            <span
-                                class="dot dotRed"
-                                v-if="scope.row.severity === '严重'"
-                            ></span>
-                            <span
-                                class="dot dotGreen"
-                                v-else-if="scope.row.severity === '一般'"
-                            ></span>
-                            <span
-                                      class="dot dotGray"
-                                      v-else-if="scope.row.severity === '建议'"
-                            ></span>
-                            {{ scope.row.severity }}
-                        </div>
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--label="严重程度"-->
+                    <!--width="180"-->
+                <!--&gt;-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<div>-->
+                            <!--<span-->
+                                <!--class="dot dotRed"-->
+                                <!--v-if="scope.row.severity === '严重'"-->
+                            <!--&gt;</span>-->
+                            <!--<span-->
+                                <!--class="dot dotGreen"-->
+                                <!--v-else-if="scope.row.severity === '一般'"-->
+                            <!--&gt;</span>-->
+                            <!--<span-->
+                                      <!--class="dot dotGray"-->
+                                      <!--v-else-if="scope.row.severity === '建议'"-->
+                            <!--&gt;</span>-->
+                            <!--{{ scope.row.severity }}-->
+                        <!--</div>-->
 
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="状态"
-                    width="180"
-                >
-                    <template slot-scope="scope">
-                        <el-tag
-                            size="mini"
-                            effect="plain"
-                            type="success"
-                            v-if="scope.row.platform === '新'"
-                        >{{ scope.row.platform }}</el-tag>
-                        <el-tag
-                                size="mini"
-                                effect="plain"
-                                type="info"
-                                v-else-if="scope.row.platform === '已关闭'"
-                        >{{ scope.row.platform }}</el-tag>
-                        <el-tag
-                                size="mini"
-                                effect="plain"
-                                type=""
-                                v-else
-                        >{{ scope.row.platform }}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="openid"
-                    label="创建时间"
-                    width="180"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="description"
-                    label="创建人"
-                >
-                </el-table-column>
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--label="状态"-->
+                    <!--width="180"-->
+                <!--&gt;-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<el-tag-->
+                            <!--size="mini"-->
+                            <!--effect="plain"-->
+                            <!--type="success"-->
+                            <!--v-if="scope.row.platform === '新'"-->
+                        <!--&gt;{{ scope.row.platform }}</el-tag>-->
+                        <!--<el-tag-->
+                                <!--size="mini"-->
+                                <!--effect="plain"-->
+                                <!--type="info"-->
+                                <!--v-else-if="scope.row.platform === '已关闭'"-->
+                        <!--&gt;{{ scope.row.platform }}</el-tag>-->
+                        <!--<el-tag-->
+                                <!--size="mini"-->
+                                <!--effect="plain"-->
+                                <!--type=""-->
+                                <!--v-else-->
+                        <!--&gt;{{ scope.row.platform }}</el-tag>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="openid"-->
+                    <!--label="创建时间"-->
+                    <!--width="180"-->
+                <!--&gt;-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="description"-->
+                    <!--label="创建人"-->
+                <!--&gt;-->
+                <!--</el-table-column>-->
             </el-table>
             <div class="pagintion">
                 <el-pagination
@@ -195,6 +196,7 @@ export default {
         return {
             listLoading : false,
             searchName: "",
+            tableColumns:[],
             pageInfo: {
                 pageNumber: 1,
                 pageSize: 10,
@@ -210,8 +212,30 @@ export default {
     },
     mounted(){
         this.onSearch();
+        this.getConfig();
     },
     methods: {
+        // 查询问题列表
+        getConfig() {
+//            let param = Object.assign({}, this.bugSearch, this.pageInfo);
+            let param = '';
+            apis.problemApi
+                    .getConfig(param)
+                    .then(res => {
+            if (res && res.data) {
+                var json = res.data;
+                if (json && json.code == "0") {
+                    this.tableColumns = json.data;
+                    return;
+                }
+            }
+            this.$message({ message: "执行失败，请重试", type: "error" });
+        })
+        .catch(err => {
+            console.log(err)
+            this.$message({ message: "查询异常，请重试 ", type: "error" });
+        });
+        },
         // 查询问题列表
         onSearch() {
             this.listLoading = true;

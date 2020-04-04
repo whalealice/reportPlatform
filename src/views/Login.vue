@@ -1,8 +1,8 @@
 <template>
     <div class="login">
         <div class="loginText">
-            <h1>筑巢天下，数据为家</h1>
-            <p>精细化运营，效率提升</p>
+            <h1>数据为家</h1>
+            <p>问题管理运营，效率提升</p>
         </div>
         <div class="loginBox">
             <div>登录</div>
@@ -39,7 +39,7 @@
         top: 20%;
         right: 20%;
         width: 300px;
-        height: 200px;
+        height: 150px;
         padding: 20px 10px;
         background: #2f3136;
         div {

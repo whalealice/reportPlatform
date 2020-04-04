@@ -13,7 +13,6 @@
                 mode="horizontal"
                 @select="handleSelect"
             >
-
                 <el-menu-item index="/home/problem">缺陷</el-menu-item>
                 
             </el-menu>
